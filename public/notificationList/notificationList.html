@@ -1,0 +1,30 @@
+<div class="notification-list">
+    <div ng-if="filtered.length != getSize(notifications)">Showing {{filtered.length}} of {{getSize(notifications)}}
+        notifications
+    </div>
+    <div ng-if="filtered.length == getSize(notifications)">Showing all notifications</div>
+    <ul>
+        <li ng-repeat="notification in filtered = (notifications | mapNotification : mapView)"
+            ng-init="editMode=false">
+            <div ng-if="!editMode" ng-init="showDetails=false">
+                <div ng-click="showDetails=!showDetails">
+                    <span class="notification-title">{{notification.title}}</span>
+                    <span class="notification-vote">votes:{{notification.votes_up}}</span>
+                </div>
+                <div ng-if="showDetails" class="notification-description">
+                    <div ng-click="showDetails=!showDetails">
+                        {{notification.description}}
+                    </div>
+                    <button ng-click="$parent.$parent.editMode=true">edit</button>
+                    <button ng-click="upVote(notification)">upvote</button>
+                    <button ng-click="delete(notification)">delete</button>
+                </div>
+            </div>
+            <div ng-if="editMode" class="notification-description">
+                <input ng-model="notification.title">
+                <textarea ng-model="notification.description"></textarea>
+                <button ng-click="$parent.editMode=false; save(notification)">save</button>
+            </div>
+        </li>
+    </ul>
+</div>
